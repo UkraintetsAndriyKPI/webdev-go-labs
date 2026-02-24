@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Power System Calculators</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light py-5">
+
+<div class="container">
+    <div class="card shadow-lg rounded-4 p-4 mx-auto" style="max-width: 900px;">
+        <h1 class="text-center mb-4">Power System Calculators</h1>
+
+        <!-- NAV TABS -->
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <button class="nav-link {{if eq .ActiveTab "calc1"}}active{{end}}"
+                        data-bs-toggle="tab"
+                        data-bs-target="#calc1">
+                    Надійність системи
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link {{if eq .ActiveTab "calc2"}}active{{end}}"
+                        data-bs-toggle="tab"
+                        data-bs-target="#calc2">
+                    Математичне сподівання збитків
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+
+            <div class="tab-pane fade {{if eq .ActiveTab "calc1"}}show active{{end}}" id="calc1">
+                <form method="POST" action="/calculate1" class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Кількість елегазових вимикачів</label>
+                        <input type="number" class="form-control" name="electricGasSwitchAmount" step="any" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Довжина ПЛ-100 кВ</label>
+                        <input type="number" class="form-control" name="electricPL100kBLen" step="any" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Кількість трансформаторів 110 кВ</label>
+                        <input type="number" class="form-control" name="converter110kBAmount" step="any" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Кількість вимикачів 10 кВ</label>
+                        <input type="number" class="form-control" name="switcher10kBAmount" step="any" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Кількість з'єднувачів 10 кВ</label>
+                        <input type="number" class="form-control" name="connector10kBAmount" step="any" required>
+                    </div>
+
+                    <div class="col-12">
+                        <button class="btn btn-primary w-100">
+                            Розрахувати
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+
+            <div class="tab-pane fade {{if eq .ActiveTab "calc2"}}show active{{end}}" id="calc2">
+                <form method="POST" action="/calculate2" class="row g-3">
+
+                    <div class="col-md-6">
+                        <label class="form-label">Вартість аварійного переривання (грн/кВт·год)</label>
+                        <input type="number" class="form-control" name="accidentCost" step="any" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Вартість планового переривання (грн/кВт·год)</label>
+                        <input type="number" class="form-control" name="scheduleCost" step="any" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Частота відмов</label>
+                        <input type="number" class="form-control" name="denyRate" step="any" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Середній час аварійного відключення (год)</label>
+                        <input type="number" class="form-control" name="avgAccidentDenyTime" step="any" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Середній час планового відключення (год)</label>
+                        <input type="number" class="form-control" name="avgScheduleDenyTime" step="any" required>
+                    </div>
+
+                    <div class="col-12">
+                        <button class="btn btn-success w-100">
+                            Розрахувати
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+        <!-- RESULT BLOCK -->
+
+        {{if .Result}}
+        <div class="mt-4 p-4 bg-light border rounded-3">
+            <h5>Результат:</h5>
+            <pre class="mb-0">{{.Result}}</pre>
+        </div>
+        {{end}}
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
