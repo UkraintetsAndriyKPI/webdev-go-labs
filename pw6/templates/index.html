@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>PW6 Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light py-5">
+
+<div class="container">
+    <div class="card shadow rounded-4 p-4 mx-auto" style="max-width: 1000px;">
+        <h1 class="text-center mb-4">PW6 Calculator</h1>
+
+        <!-- CALCULATOR FORM -->
+        <form method="POST" action="/calculate" class="row g-3 mb-4">
+
+            <div class="col-md-4">
+                <label class="form-label">Шліфувальний верстат - номінальна потужність (Рн, кВт)</label>
+                <input type="number" step="any" class="form-control"
+                       name="nominalPowerGrindingMachine"
+                       value="{{.Form.nominalPowerGrindingMachine}}">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Полірувальний верстат - коеф. використання (Кв)</label>
+                <input type="number" step="any" class="form-control"
+                       name="usageCoeffPolishingMachine"
+                       value="{{.Form.usageCoeffPolishingMachine}}">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Циркулярна пила - коеф. реактивної потужності (tgφ)</label>
+                <input type="number" step="any" class="form-control"
+                       name="reactivePowerCoeffCircularSaw"
+                       value="{{.Form.reactivePowerCoeffCircularSaw}}">
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary w-100">Розрахувати</button>
+            </div>
+
+        </form>
+
+        <!-- RESULT BLOCK -->
+        {{if .Result}}
+        <div class="alert alert-success" role="alert">
+            <pre class="mb-0">{{.Result}}</pre>
+        </div>
+        {{end}}
+
+        <!-- TABLE BLOCK -->
+        {{if .Table}}
+        <div class="table-responsive mt-4">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Назва ЕП</th>
+                        <th>К-сть ЕП (шт)</th>
+                        <th>Струм на I рівні (Ipr, A)</th>
+                        <th>Груповий коеф. використання (Кв)</th>
+                        <th>n*Рн*Кв (кВт)</th>
+                        <th>n*Рн*Кв*tgφ (квар)</th>
+                        <th>n*Рн^2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {{range .Table}}
+                    <tr>
+                        {{range .}}
+                        <td>{{.}}</td>
+                        {{end}}
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+        </div>
+        {{end}}
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
